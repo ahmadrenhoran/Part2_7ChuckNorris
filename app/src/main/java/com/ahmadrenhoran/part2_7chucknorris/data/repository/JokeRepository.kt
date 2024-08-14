@@ -3,8 +3,11 @@ package com.ahmadrenhoran.part2_7chucknorris.data.repository
 import com.ahmadrenhoran.part2_7chucknorris.data.model.JokesResponse
 import com.ahmadrenhoran.part2_7chucknorris.data.model.Response
 import com.ahmadrenhoran.part2_7chucknorris.data.remote.ChuckNorrisApiService
+import javax.inject.Inject
 
-class JokeRepository(private val apiService: ChuckNorrisApiService) {
+
+
+class JokeRepository @Inject constructor(private val apiService: ChuckNorrisApiService) {
 
     suspend fun searchJokes(query: String): Response<JokesResponse> {
         return try {
