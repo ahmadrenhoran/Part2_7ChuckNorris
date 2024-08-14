@@ -25,7 +25,7 @@ class JokeAdapter : ListAdapter<Joke, JokeAdapter.JokeViewHolder>(JokeDiffCallba
         fun bind(joke: Joke) {
             binding.textViewJoke.text = joke.value
             Glide.with(binding.imageViewJoke.context)
-                .load(joke.jokeImage)
+                .load(joke.iconUrl)
                 .into(binding.imageViewJoke)
         }
     }

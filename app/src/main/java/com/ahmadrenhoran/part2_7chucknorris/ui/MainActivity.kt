@@ -2,19 +2,15 @@ package com.ahmadrenhoran.part2_7chucknorris.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ahmadrenhoran.part2_7chucknorris.R
 import com.ahmadrenhoran.part2_7chucknorris.data.model.Response
-import com.ahmadrenhoran.part2_7chucknorris.data.repository.JokeRepository
 import com.ahmadrenhoran.part2_7chucknorris.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.security.AccessController.getContext
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -25,9 +21,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
 
         adapter = JokeAdapter()
 
@@ -38,6 +35,12 @@ class MainActivity : AppCompatActivity() {
 
 
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         recyclerView.adapter = adapter
         buttonSearch.setOnClickListener {
             val query = editTextSearch.text.toString()
@@ -57,12 +60,14 @@ class MainActivity : AppCompatActivity() {
                 is Response.Success -> {
                     Log.d("MALARIA", "onCreate: success")
                     response.data?.let { jokes ->
+                        Log.d("MALARIA", "onCreate: " + jokes.result)
                         adapter.submitList(jokes.result)
+                        Log.d("MALARIA", "onCreate: " + adapter.currentList)
                     }
                 }
 
                 is Response.Failure -> {
-                    Log.d("MALARIA", "onCreate: FAIL")
+                    Log.d("MALARIA", "onCreate: ${response.e}")
                 }
             }
         }

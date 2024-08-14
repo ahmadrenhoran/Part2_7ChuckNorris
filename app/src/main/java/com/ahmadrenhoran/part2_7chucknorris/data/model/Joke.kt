@@ -1,9 +1,12 @@
 package com.ahmadrenhoran.part2_7chucknorris.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Joke(
     val id: String,
     val value: String,
-    val jokeImage: String
+    @field:SerializedName("icon_url")
+    val iconUrl: String
 )
 
 data class JokesResponse(
